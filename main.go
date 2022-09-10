@@ -52,7 +52,7 @@ func PrintCases() {
 
 	for i, c := range Cases {
 		fmt.Print(c)
-		if i != len(Cases) - 1 {
+		if i != len(Cases)-1 {
 			fmt.Print(", ")
 		}
 	}
@@ -70,19 +70,18 @@ func main() {
 			path = strings.Replace(path, ".xml", "1.xml", -1)
 		}
 		p := ParsePolicy(path)
-		fmt.Print(c + ", ")
+		fmt.Print(c + " policy: ")
 		PrintPolicy(p)
 		fmt.Print("\n")
 	}
 
-	//for _, c := range Cases {
-	//	r := ParseRequest(fmt.Sprintf("ConformanceTests/%sRequest.xml", c))
-	//	fmt.Print(c + ", ")
-	//	PrintRequest(r)
-	//
-	//	res := ParseResponse(fmt.Sprintf("ConformanceTests/%sResponse.xml", c))
-	//	fmt.Print(" ----> ")
-	//	PrintResponse(res)
-	//	fmt.Print("\n")
-	//}
+	for _, c := range Cases {
+		r := ParseRequest(fmt.Sprintf("ConformanceTests/%sRequest.xml", c))
+		fmt.Print(c + " request: ")
+		PrintRequest(r)
+		res := ParseResponse(fmt.Sprintf("ConformanceTests/%sResponse.xml", c))
+		fmt.Print(" ----> ")
+		PrintResponse(res)
+		fmt.Print("\n")
+	}
 }

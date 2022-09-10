@@ -46,7 +46,7 @@
                         <AttributeValue
                               DataType="http://www.w3.org/2001/XMLSchema#anyURI">http://medico.com/record/patient/BartSimpson</AttributeValue>
                         <ResourceAttributeDesignator
-                              AttributeId="urn:oasis:names:tc:xacml:1.0:resource:resource-id"
+                              AttributeId="urn:oasis:names:tc:xacml:1.0:resource_id:resource-id"
                               DataType="http://www.w3.org/2001/XMLSchema#anyURI"/>
                     </ResourceMatch>
                 </Resource>

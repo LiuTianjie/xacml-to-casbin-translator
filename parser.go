@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"encoding/xml"
 	"fmt"
 	"os"
@@ -15,7 +16,7 @@ func getSimpleName(str string) string {
 		return str
 	}
 
-	return str[index + 1:]
+	return str[index+1:]
 }
 
 func ParsePolicy(path string) *pdp.Policy {
@@ -43,32 +44,32 @@ func PrintPolicy(p *pdp.Policy) {
 	// fmt.Printf("%+v\n", p)
 
 	for i, rule := range p.Rules {
-		sub := "["
+		sub := ""
 		for i, subject := range rule.Target.Subjects.Subjects {
 			sub += getSimpleName(subject.SubjectMatch.SubjectAttributeDesignator.AttributeId) + ": " + subject.SubjectMatch.AttributeValue.Value
-			if i != len(rule.Target.Subjects.Subjects) - 1 {
+			//sub += subject.SubjectMatch.AttributeValue.Value
+			if i != len(rule.Target.Subjects.Subjects)-1 {
 				sub += ", "
 			}
 		}
-		sub += "]"
 
-		obj := "["
+		obj := ""
 		for i, object := range rule.Target.Resources.Resources {
 			obj += getSimpleName(object.ResourceMatch.ResourceAttributeDesignator.AttributeId) + ": " + object.ResourceMatch.AttributeValue.Value
-			if i != len(rule.Target.Resources.Resources) - 1 {
+			//obj += object.ResourceMatch.AttributeValue.Value
+			if i != len(rule.Target.Resources.Resources)-1 {
 				obj += ", "
 			}
 		}
-		obj += "]"
 
-		act := "["
+		act := ""
 		for i, action := range rule.Target.Actions.Actions {
 			act += getSimpleName(action.ActionMatch.ActionAttributeDesignator.AttributeId) + ": " + action.ActionMatch.AttributeValue.Value
-			if i != len(rule.Target.Actions.Actions) - 1 {
+			//act +=  action.ActionMatch.AttributeValue.Value
+			if i != len(rule.Target.Actions.Actions)-1 {
 				act += ", "
 			}
 		}
-		act += "]"
 
 		con := rule.Condition.AttributeValue.Value
 
@@ -76,7 +77,7 @@ func PrintPolicy(p *pdp.Policy) {
 
 		fmt.Print("[" + sub + ", " + obj + ", " + act + ", " + con + ", " + eft + "]")
 
-		if i != len(p.Rules) - 1 {
+		if i != len(p.Rules)-1 {
 			fmt.Print(", ")
 		}
 	}
@@ -104,37 +105,37 @@ func ParseRequest(path string) *Request {
 }
 
 func PrintRequest(r *Request) {
-	sub := "["
+	sub := "sub: "
 	for i, attribute := range r.Subject.Attribute {
-		sub += attribute.AttributeValue
-		if i != len(r.Subject.Attribute) - 1 {
+		subAttr, _ := json.Marshal(attribute)
+		sub += string(subAttr)
+		if i != len(r.Subject.Attribute)-1 {
 			sub += ", "
 		}
 	}
-	sub += "]"
 
-	obj := "["
+	obj := "obj:"
 	for i, attribute := range r.Resource.Attribute {
-		obj += attribute.AttributeValue
-		if i != len(r.Resource.Attribute) - 1 {
+		objAttr, _ := json.Marshal(attribute)
+		obj += string(objAttr)
+		if i != len(r.Resource.Attribute)-1 {
 			obj += ", "
 		}
 	}
-	obj += "]"
 
-	act := "["
+	act := "act: "
 	for i, attribute := range r.Action.Attribute {
-		act += attribute.AttributeValue
-		if i != len(r.Action.Attribute) - 1 {
+		actAttr, _ := json.Marshal(attribute)
+		act += string(actAttr)
+		if i != len(r.Action.Attribute)-1 {
 			act += ", "
 		}
 	}
-	act += "]"
 
 	env := "["
 	for i, attribute := range r.Environment.Attribute {
 		env += attribute.AttributeValue
-		if i != len(r.Environment.Attribute) - 1 {
+		if i != len(r.Environment.Attribute)-1 {
 			env += ", "
 		}
 	}
